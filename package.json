@@ -1,0 +1,43 @@
+{
+  "name": "domislink.com",
+  "version": "1.0.0",
+  "description": "Official Domislink International Business Services Ltd website built with Next.js and Chakra UI",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "clean": "rimraf .next node_modules"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "framer-motion": "^11.11.10",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.5",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  },
+  "resolutions": {
+    "eslint": "8.57.1"
+  },
+  "author": "Amaechi Ubadike",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/amaechi.u/domislink.com.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://gitlab.com/amaechi.u/domislink.com/issues"
+  },
+  "homepage": "https://gitlab.com/amaechi.u/domislink.com#readme"
+}
