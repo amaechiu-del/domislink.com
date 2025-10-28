@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: gpt-oss
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python serve_model.py
+    plan: free
