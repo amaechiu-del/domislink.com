@@ -23,3 +23,17 @@ deploy:
   stage: deploy
   script:
     - docker-compose -f docker-compose.yml up -d
+
+
+image: python:3.10
+
+stages:
+  - deploy
+
+deploy_to_render:
+  stage: deploy
+  script:
+    - curl -X POST https://api.render.com/deploy/srv-xxxxxxxxxxxxxxxxxxxx?key=YOUR_RENDER_API_KEY
+  only:
+    - main
+
