@@ -1,0 +1,132 @@
+
+Vis
+
+
+
+
+
+ual Studio 2026 Developer PowerShell v18.0.0-insiders ** Copyright (c) 2025 Microsoft Corporation
+
+PS C:\Users\Amaechi Ubadike\source\repos> PS C:\Users\Amaechi Ubadike\source\repos> cd domislink.com PS C:\Users\Amaechi Ubadike\source\repos\domislink.com> dir
+
+Directory: C:\Users\Amaechi Ubadike\source\repos\domislink.com
+Mode                 LastWriteTime         Length Name
+
+d-----         28-Oct-25   3:11 AM                .vercel d-----         29-Oct-25   6:13 AM                .vs d-----         28-Oct-25   6:38 PM                NewRepo d-----         28-Oct-25   7:27 PM                venv d-----         28-Oct-25   7:45 PM                pycache -a----         28-Oct-25   6:34 AM             62 .gitignore -a----         28-Oct-25   8:51 PM            586 .gitlab-ci.yml -a----         29-Oct-25   2:26 AM            290 docker-compose.yml -a----         29-Oct-25   6:35 AM            255 Dockerfile -a----         29-Oct-25   6:13 AM           1162 package.json -a----         28-Oct-25   9:45 PM            192 render.yaml -a----         28-Oct-25   8:29 PM             43 requirements.txt -a----         28-Oct-25   9:38 PM            251 serve_model.py -a----         28-Oct-25   9:39 PM              0 services -a----         28-Oct-25   6:22 PM             22 ✅ requirements.txt
+
+PS C:\Users\Amaechi Ubadike\source\repos\domislink.com>
+
+Domislink Platform Blueprint
+This folder contains the essential files for the Domislink.com platform including HTML, CSS, and JavaScript to create a basic but functional website structure.
+
+File Structure
+index.html
+
+styles.css
+
+script.js
+
+index.html
+styles.css
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #007acc;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 1rem;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+form button {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #005fa3;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #222;
+    color: white;
+}
+script.js
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const responseDiv = document.getElementById('formResponse');
+
+    if(name === '' || email === '' || message === '') {
+        responseDiv.textContent = 'Please fill in all fields.';
+        responseDiv.style.color = 'red';
+        return;
+    }
+
+    // Simulate form submission
+    responseDiv.textContent = 'Thank you for contacting us, ' + name + '!';
+    responseDiv.style.color = 'green';
+
+    // Clear form
+    this.reset();
+});
