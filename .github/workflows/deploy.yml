@@ -1,16 +1,13 @@
-name: Deploy to Render
-
-on:
-  push:
-    branches:
-      - main
-
+name: Render Deploy
+on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Trigger Render Deploy Hook
-        run: curl -X POST https://api.render.com/deploy/srv-d47h2g2li9vc738nkt20?key=nL0mNks1cKE
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g render-cli
+      - run: render blueprint deploy --from infra/render.yaml --api-key ${{ secrets.RENDER_API_KEY }}
