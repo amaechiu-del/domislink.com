@@ -1,4 +1,4 @@
-services:
+﻿services:
   - type: web
     name: domislink-frontend
     env: node
@@ -6,6 +6,12 @@ services:
     plan: free
     buildCommand: npm ci && npm run build
     startCommand: npm run start
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+
   - type: web
     name: domislink-backend
     env: node
@@ -13,3 +19,8 @@ services:
     plan: free
     buildCommand: npm ci && npm run build
     startCommand: npm run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
