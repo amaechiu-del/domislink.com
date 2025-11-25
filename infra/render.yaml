@@ -1,9 +1,13 @@
-﻿services:
+﻿version: "1"
+
+services:
+  # === Frontend Service (Public) ===
   - type: web
     name: domislink-frontend
     env: node
     rootDir: frontend
     plan: free
+    region: oregon
     buildCommand: npm ci && npm run build
     startCommand: npm run start
     healthCheckPath: /
@@ -11,12 +15,16 @@
     envVars:
       - key: NODE_VERSION
         value: 20
+      - key: PORT
+        value: 3000
 
+  # === Backend Service (API) ===
   - type: web
     name: domislink-backend
     env: node
     rootDir: backend
     plan: free
+    region: oregon
     buildCommand: npm ci && npm run build
     startCommand: npm run start
     healthCheckPath: /api/health
@@ -24,3 +32,5 @@
     envVars:
       - key: NODE_VERSION
         value: 20
+      - key: PORT
+        value: 3001

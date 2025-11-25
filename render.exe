@@ -1,0 +1,109 @@
+<#
+.SYNOPSIS
+  Domislink Universal Render Automation Script
+  Supports both After Effects rendering and Render CLI deployment.
+  Works in interactive mode (menu) or non-interactive mode (via arguments).
+#>
+
+param (
+    [string]$ProjectPath,
+    [string]$Composition,
+    [string]$OutputPath
+)
+
+# ===== CONFIGURATION =====
+$AERENDER_PATH = "C:\Program Files\Adobe\Adobe After Effects CC\Support Files\aerender.exe"
+$RENDER_CLI_PATH = "C:\Program Files\Render CLI\render.exe"
+$DEFAULT_PROJECT = "C:\projects\project.aep"
+$DEFAULT_OUTPUT_DIR = "C:\output"
+
+# ===== COLORFUL HEADER =====
+Write-Host ""
+Write-Host "===============================================" -ForegroundColor Cyan
+Write-Host " DOMISLINK UNIVERSAL RENDER AUTOMATION CONSOLE " -ForegroundColor Yellow
+Write-Host "===============================================" -ForegroundColor Cyan
+Write-Host ""
+
+# ===== INTERACTIVE MODE =====
+if (-not $ProjectPath -or -not $Composition -or -not $OutputPath) {
+    Write-Host "No command-line arguments detected. Launching interactive mode..." -ForegroundColor Yellow
+    Write-Host ""
+
+    Write-Host "Select a Composition to Render:"
+    Write-Host "  [1] IntroComp"
+    Write-Host "  [2] MainComp"
+    Write-Host "  [3] OutroComp"
+    $choice = Read-Host "Enter your choice (1-3)"
+
+    switch ($choice) {
+        "1" { $Composition = "IntroComp" }
+        "2" { $Composition = "MainComp" }
+        "3" { $Composition = "OutroComp" }
+        default { Write-Host "Invalid choice. Exiting." -ForegroundColor Red; exit 1 }
+    }
+
+    $ProjectPath = $DEFAULT_PROJECT
+    if (-not (Test-Path $DEFAULT_OUTPUT_DIR)) { New-Item -ItemType Directory -Force -Path $DEFAULT_OUTPUT_DIR | Out-Null }
+    $OutputPath = Join-Path $DEFAULT_OUTPUT_DIR "$Composition.avi"
+
+    Write-Host ""
+    Write-Host "Selected Composition: $Composition" -ForegroundColor Green
+    Write-Host "Output File: $OutputPath" -ForegroundColor Green
+    Write-Host ""
+}
+
+# ===== VALIDATION =====
+if (-not (Test-Path $ProjectPath)) {
+    Write-Host "❌ ERROR: Project file not found: $ProjectPath" -ForegroundColor Red
+    exit 1
+}
+
+# ===== MAIN MENU: CHOOSE MODE =====
+Write-Host "Select render mode:"
+Write-Host "  [1] Adobe After Effects Render (aerender.exe)"
+Write-Host "  [2] Render CLI Deployment"
+$mode = Read-Host "Enter your choice (1-2)"
+
+switch ($mode) {
+    "1" {
+        # ---- AFTER EFFECTS RENDER ----
+        if (-not (Test-Path $AERENDER_PATH)) {
+            Write-Host "❌ aerender.exe not found at $AERENDER_PATH" -ForegroundColor Red
+            exit 1
+        }
+        Write-Host "🎬 Starting After Effects render..." -ForegroundColor Cyan
+        & "$AERENDER_PATH" -project "$ProjectPath" -comp "$Composition" -output "$OutputPath"
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✅ Render completed successfully!" -ForegroundColor Green
+        } else {
+            Write-Host "❌ Render failed with exit code $LASTEXITCODE" -ForegroundColor Red
+        }
+    }
+    "2" {
+        # ---- RENDER CLI DEPLOYMENT ----
+        if (-not (Test-Path $RENDER_CLI_PATH)) {
+            Write-Host "❌ Render CLI not found at $RENDER_CLI_PATH" -ForegroundColor Red
+            exit 1
+        }
+        if (-not $env:RENDER_API_KEY) {
+            Write-Host "⚠️ No API key found. Please set your Render API key first:" -ForegroundColor Yellow
+            Write-Host '[Environment]::SetEnvironmentVariable("RENDER_API_KEY", "your_key_here", "User")' -ForegroundColor DarkGray
+            exit 1
+        }
+        Write-Host "🚀 Deploying with Render CLI..." -ForegroundColor Cyan
+        & "$RENDER_CLI_PATH" deploy --from "infra/render.yaml" --output json --confirm
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✅ Render service deployed successfully!" -ForegroundColor Green
+        } else {
+            Write-Host "❌ Render CLI deployment failed with exit code $LASTEXITCODE" -ForegroundColor Red
+        }
+    }
+    default {
+        Write-Host "Invalid mode selection." -ForegroundColor Red
+        exit 1
+    }
+}
+
+Write-Host ""
+Write-Host "🏁 Process finished."
+pause

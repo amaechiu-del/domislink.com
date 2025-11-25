@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "build": "echo no-build",
-    "start": "npx serve -s . -l %PORT%"
+    "start": "npx serve -s . -l 3000"
   },
   "dependencies": {
     "serve": "^14.2.1"
   },
-  "engines": { "node": ">=20.x" }
+  "engines": {
+    "node": ">=20.x"
+  }
 }
